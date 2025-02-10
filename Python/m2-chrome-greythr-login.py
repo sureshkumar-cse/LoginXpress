@@ -50,15 +50,59 @@ browser.get(website_link)
 WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.ID, ele_username))).send_keys(username)
 WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.ID, ele_password))).send_keys(password)
 
-# Wait for a button element to appear
-button = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.TAG_NAME, "button")))
+# Check for Login in button
+btn1 = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.TAG_NAME, "button")))
 
 # Check if the button has type="submit" and contains "Log in" text
-if button.get_attribute("type") == "submit" and "Log in" in button.text:
-    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(button)).click()
+if btn1.get_attribute("type") == "submit" and "Log in" in btn1.text:
+    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn1)).click()
 
-# Add any additional steps after login if necessary
+# Wait to load the dashboard
+time.sleep(18)
+
+# Check for Sign Out button
+btn2 = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.TAG_NAME, "button")))
+# Check if the button has type="button"
+if btn2.get_attribute("type") == "button":
+    try:
+        # Find the <slot> element inside the button that contains "Sign Out"
+        slot_element = btn2.find_element(By.TAG_NAME, "slot")
+        if "Sign Out" in slot_element.text:
+            # Wait until the button is clickable and then click it
+            WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn2)).click()
+    except:
+        print("<slot> tag with 'Sign Out' text not found inside the <button> tag.")
+else:
+    print("<button> tag does not have type='button'.")
+
+# Wait for a Dropdown button element to appear
+dropdown = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.CLASS_NAME, "dropdown-container")))
+dropdown.click()
+
+dropdown_items = WebDriverWait(browser, 6).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "dropdown-item")))
+
+# Iterate through options and select "Work from Home"
+for item in dropdown_items:
+    label = item.find_element(By.CLASS_NAME, "item-label")
+    if label.text.strip() == "Work from Home":
+        label.click()
+        break
+
+# Check for Sign Out button
+btn2 = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.TAG_NAME, "button")))
+# Check if the button has type="button"
+if btn2.get_attribute("type") == "button":
+    try:
+        # Find the <slot> element inside the button that contains "Sign Out"
+        slot_element = btn2.find_element(By.TAG_NAME, "slot")
+        if "Sign Out" in slot_element.text:
+            # Wait until the button is clickable and then click it
+            WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn2)).click()
+    except:
+        print("<slot> tag with 'Sign Out' text not found inside the <button> tag.")
+else:
+    print("<button> tag does not have type='button'.")
 
 # Close the browser after a delay
-time.sleep(30)
+#time.sleep(21)
 browser.quit()
