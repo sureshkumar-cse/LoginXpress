@@ -70,7 +70,9 @@ dropdown = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NA
 if dropdown.get_attribute("class") == "hydrated":
     WebDriverWait(browser, 6).until(EC.element_to_be_clickable(dropdown)).click()
 
-dropdown_items = WebDriverWait(browser, 6).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "dropdown-item")))
+dropdown_item = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.CLASS_NAME, "item-label")))
+if "Work from Home" in dropdown_item.text:
+    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(dropdown)).click()
 
 # Iterate through options and select "Work from Home"
 for item in dropdown_items:
