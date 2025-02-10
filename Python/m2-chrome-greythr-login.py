@@ -58,15 +58,17 @@ if btn1.get_attribute("type") == "submit" and "Log in" in btn1.text:
     WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn1)).click()
 
 # Wait to load the dashboard
-time.sleep(18)
+time.sleep(6)
 
 # Check for Sign Out button
-btn2 = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.XPATH, "//gt-button/button/slot[contains(text(),'Sign Out')]")))
-btn2.click()
+btn2 = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "gt-button")))
+if btn2.get_attribute("class") == "hydrated":
+    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn2)).click()
 
 # Wait for a Dropdown button element to appear
-dropdown = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.CLASS_NAME, "dropdown-container")))
-dropdown.click()
+dropdown = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "gt-dropdown")))
+if dropdown.get_attribute("class") == "hydrated":
+    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(dropdown)).click()
 
 dropdown_items = WebDriverWait(browser, 6).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "dropdown-item")))
 
