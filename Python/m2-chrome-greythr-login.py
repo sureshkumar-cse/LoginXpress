@@ -61,19 +61,8 @@ if btn1.get_attribute("type") == "submit" and "Log in" in btn1.text:
 time.sleep(18)
 
 # Check for Sign Out button
-btn2 = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.TAG_NAME, "button")))
-# Check if the button has type="button"
-if btn2.get_attribute("type") == "button":
-    try:
-        # Find the <slot> element inside the button that contains "Sign Out"
-        slot_element = btn2.find_element(By.TAG_NAME, "slot")
-        if "Sign Out" in slot_element.text:
-            # Wait until the button is clickable and then click it
-            WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn2)).click()
-    except:
-        print("<slot> tag with 'Sign Out' text not found inside the <button> tag.")
-else:
-    print("<button> tag does not have type='button'.")
+btn2 = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.XPATH, "//gt-button/button[contains(text(),'Sign Out')]")))
+btn2.click()
 
 # Wait for a Dropdown button element to appear
 dropdown = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.CLASS_NAME, "dropdown-container")))
