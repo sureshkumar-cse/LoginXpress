@@ -72,29 +72,12 @@ if dropdown.get_attribute("class") == "hydrated":
 
 dropdown_item = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.CLASS_NAME, "item-label")))
 if "Work from Home" in dropdown_item.text:
-    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(dropdown)).click()
-
-# Iterate through options and select "Work from Home"
-for item in dropdown_items:
-    label = item.find_element(By.CLASS_NAME, "item-label")
-    if label.text.strip() == "Work from Home":
-        label.click()
-        break
+    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(dropdown_item)).click()
 
 # Check for Sign Out button
-btn2 = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.TAG_NAME, "button")))
-# Check if the button has type="button"
-#if btn2.get_attribute("type") == "button":
-#    try:
-#        # Find the <slot> element inside the button that contains "Sign Out"
-#        slot_element = btn2.find_element(By.TAG_NAME, "slot")
-#        if "Sign Out" in slot_element.text:
-#            # Wait until the button is clickable and then click it
-#            WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn2)).click()
-#    except:
-#        print("<slot> tag with 'Sign Out' text not found inside the <button> tag.")
-#else:
-#    print("<button> tag does not have type='button'.")
+#btn2 = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "gt-button")))
+#if btn2.get_attribute("class") == "hydrated":
+#    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn2)).click()
 
 # Close the browser after a delay
 #time.sleep(21)
