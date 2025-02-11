@@ -60,10 +60,27 @@ if btn1.get_attribute("type") == "submit" and "Log in" in btn1.text:
 # Wait to load the dashboard
 time.sleep(6)
 
-# Check for Sign Out button
-btn2 = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "gt-button")))
-if btn2.get_attribute("class") == "hydrated":
-    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn2)).click()
+# Function to get the shadow root of an element
+def get_shadow_root(element):
+    return browser.execute_script("return arguments[0].shadowRoot", element)
+
+# Locate the parent element containing shadow DOM (gt-button)
+customElem = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.TAG_NAME, "gt-button")))
+
+# Get the shadow root
+shadow_root = get_shadow_root(customElem)
+
+# Locate for Sign Out button inside the shadow root and click it
+btn2 = WebDriverWait(shadow_root, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "button")))
+if btn2.get_attribute("type") == "button":
+    WebDriverWait(shadow_root, 6).until(EC.element_to_be_clickable(btn2)).click()
+
+# Locate the parent element containing shadow DOM (gt-dropdown)
+shadow_host = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.TAG_NAME, "gt-dropdown"))
+)
+
+# Get the shadow root
+shadow_root = get_shadow_root(shadow_host)
 
 # Wait for a Dropdown button element to appear
 dropdown = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "gt-dropdown")))
@@ -75,10 +92,10 @@ if "Work from Home" in dropdown_item.text:
     WebDriverWait(browser, 6).until(EC.element_to_be_clickable(dropdown_item)).click()
 
 # Check for Sign Out button
-#btn2 = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "gt-button")))
-#if btn2.get_attribute("class") == "hydrated":
-#    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn2)).click()
+# btn2 = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "gt-button")))
+# if btn2.get_attribute("class") == "hydrated":
+#     WebDriverWait(browser, 6).until(EC.element_to_be_clickable(btn2)).click()
 
-# Close the browser after a delay
-#time.sleep(21)
+#Close the browser after a delay
+time.sleep(21)
 browser.quit()
