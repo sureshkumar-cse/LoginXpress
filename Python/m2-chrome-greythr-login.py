@@ -64,28 +64,25 @@ time.sleep(6)
 def get_shadow_root(element):
     return browser.execute_script("return arguments[0].shadowRoot", element)
 
-# Locate the parent element containing shadow DOM (gt-button)
+# Locate the `gt-button` element containing the Shadow DOM
 customElem = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.TAG_NAME, "gt-button")))
 
 # Get the shadow root
 shadow_root = get_shadow_root(customElem)
 
-# Locate for Sign Out button inside the shadow root and click it
-btn2 = WebDriverWait(shadow_root, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "button")))
-if btn2.get_attribute("type") == "button":
-    WebDriverWait(shadow_root, 6).until(EC.element_to_be_clickable(btn2)).click()
+# Find the inner <button> inside the shadow root
+btn2 = WebDriverWait(browser, 3).until(lambda drv: shadow_root.find_element(By.CSS_SELECTOR, 'button[type="button"][name="primary"]'))
+btn2.click()
 
-# Locate the parent element containing shadow DOM (gt-dropdown)
-shadow_host = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.TAG_NAME, "gt-dropdown"))
-)
+# Locate the `gt-dropdown` element containing the Shadow DOM
+customElem = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.TAG_NAME, "gt-dropdown")))
 
 # Get the shadow root
-shadow_root = get_shadow_root(shadow_host)
+shadow_root = get_shadow_root(customElem)
+print("Shadow Root Retrieved:", shadow_root)
 
-# Wait for a Dropdown button element to appear
-dropdown = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "gt-dropdown")))
-if dropdown.get_attribute("class") == "hydrated":
-    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(dropdown)).click()
+# Find the inner <button> inside the shadow root
+WebDriverWait(browser, 3).until(lambda drv: shadow_root.find_element(By.CSS_SELECTOR, 'button[class="dropdown-button"]')).click()
 
 dropdown_item = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.CLASS_NAME, "item-label")))
 if "Work from Home" in dropdown_item.text:
