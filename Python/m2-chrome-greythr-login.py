@@ -84,9 +84,9 @@ print("Shadow Root Retrieved:", shadow_root)
 # Find the inner <button> inside the shadow root
 WebDriverWait(browser, 3).until(lambda drv: shadow_root.find_element(By.CSS_SELECTOR, 'button[class="dropdown-button"]')).click()
 
-dropdown_item = WebDriverWait(browser, 6).until(EC.presence_of_element_located((By.CLASS_NAME, "item-label")))
+dropdown_item = WebDriverWait(browser, 3).until(lambda drv: shadow_root.find_element(By.CSS_SELECTOR, 'button[class="item-label"]'))
 if "Work from Home" in dropdown_item.text:
-    WebDriverWait(browser, 6).until(EC.element_to_be_clickable(dropdown_item)).click()
+    dropdown_item.click()
 
 # Check for Sign Out button
 # btn2 = WebDriverWait(browser, 6).until(EC.element_to_be_clickable((By.TAG_NAME, "gt-button")))
